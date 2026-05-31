@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meeting Scheduling CP — Benchmark CSPLib 046</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="header-top">
+        <div>
+          <h1>Meeting Scheduling CP</h1>
+          <p class="subtitle">CSPLib prob046 — Résultats du benchmark · PyCSP3 + ACE solver</p>
+        </div>
+        <span class="meta" id="meta-generated"></span>
+      </div>
+      <nav>
+        <a href="#stats">Vue d'ensemble</a>
+        <a href="#chart">Graphique</a>
+        <a href="#table">Tableau</a>
+        <a href="#solutions">Solutions</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="section" id="stats">
+      <h2 class="section-title">Vue d'ensemble</h2>
+      <div class="stats-grid" id="stats-grid"></div>
+    </section>
+
+    <section class="section" id="chart">
+      <h2 class="section-title">Temps de résolution par instance</h2>
+      <div class="chart-controls">
+        <label class="toggle-label">
+          <input type="checkbox" id="hide-first" checked>
+          Masquer instance #1 (démarrage JVM à froid)
+        </label>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="timingChart"></canvas>
+      </div>
+    </section>
+
+    <section class="section" id="table">
+      <h2 class="section-title">Tableau benchmark</h2>
+      <div class="table-controls">
+        <input type="search" id="search" placeholder="Filtrer par instance…">
+        <select id="status-filter">
+          <option value="">Tous les statuts</option>
+          <option value="SAT">SAT</option>
+          <option value="UNSAT">UNSAT</option>
+          <option value="UNKNOWN">UNKNOWN</option>
+        </select>
+        <select id="sort-by">
+          <option value="instance">Trier par instance</option>
+          <option value="time-std-asc">Temps Standard (min → max)</option>
+          <option value="time-max-asc">Temps Valeurs Max (min → max)</option>
+          <option value="diff-abs">Écart |Standard − Max| ↑</option>
+        </select>
+      </div>
+      <div class="table-container">
+        <table id="results-table">
+          <thead>
+            <tr>
+              <th>Instance</th>
+              <th>Réunions</th>
+              <th>Agents</th>
+              <th>Domaine</th>
+              <th>Standard (Min)</th>
+              <th>Valeurs Max</th>
+              <th>Écart</th>
+              <th>Statut</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+        <p class="table-empty hidden" id="table-empty">Aucun résultat.</p>
+      </div>
+    </section>
+
+    <section class="section" id="solutions">
+      <h2 class="section-title">Solutions détaillées</h2>
+      <p class="section-desc">Configuration Standard (Min) — créneau attribué à chaque réunion</p>
+      <div class="accordion-controls">
+        <button class="btn-text" onclick="expandAll()">Tout développer</button>
+        <span class="sep">·</span>
+        <button class="btn-text" onclick="collapseAll()">Tout réduire</button>
+      </div>
+      <div id="solutions-list"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>
+      <a href="https://www.csplib.org/Problems/prob046/" target="_blank" rel="noopener">CSPLib prob046</a>
+      &nbsp;·&nbsp;
+      Master 2 IA — Université d'Artois
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

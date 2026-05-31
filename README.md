@@ -22,6 +22,7 @@
 - [Données](#données)
 - [Exécution](#exécution)
 - [Résultats](#résultats)
+- [Dashboard GitHub Pages](#dashboard-github-pages)
 - [Configuration solveur](#configuration-solveur)
 - [Structure du projet](#structure-du-projet)
 
@@ -34,7 +35,7 @@
 | Modélisation | CSP avec [PyCSP3](https://pycsp3.org) |
 | Solveur | ACE (via PyCSP3) |
 | Données | Instances CSPLib 046 |
-| Pipeline | Parsing → JSON → Résolution → Benchmark |
+| Pipeline | Parsing → JSON → Résolution → Benchmark → Dashboard |
 
 ---
 
@@ -141,6 +142,14 @@ venv/bin/python 2_run_benchmark.py
 
 Affiche les résultats en console et les exporte dans `results/benchmark_output.md`.
 
+### Étape 3 — Générer les données du dashboard
+
+```bash
+python3 3_export_web_data.py
+```
+
+Lit `results/benchmark_output.md` et les JSONs de `data/processed/`, puis produit `docs/data/benchmark.json` pour le dashboard web.
+
 ---
 
 ## Résultats
@@ -151,6 +160,33 @@ Le fichier `results/benchmark_output.md` contient deux sections :
 2. **Solutions détaillées** — pour chaque instance satisfiable, le créneau attribué à chaque réunion (configuration Standard)
 
 > Chaque exécution régénère entièrement ce fichier.
+
+---
+
+## Dashboard GitHub Pages
+
+Le dossier `docs/` contient une application statique (HTML/CSS/JS) déployable sur GitHub Pages.
+
+**Fonctionnalités :**
+
+- Vue d'ensemble — 4 cartes de statistiques globales
+- Graphique — bar chart comparatif Standard (Min) vs Valeurs Max par instance, avec option pour masquer le démarrage JVM à froid
+- Tableau — filtrable et triable par instance, statut, ou temps de résolution, avec lien direct vers la solution
+- Solutions détaillées — accordéon par instance avec les créneaux assignés à chaque réunion
+
+**Déploiement :**
+
+Dans les *Settings* du dépôt → *Pages* → source : `main / docs`.
+
+**Tester localement :**
+
+```bash
+cd docs
+python3 -m http.server
+# Ouvrir http://localhost:8000
+```
+
+> Les données sont chargées via `fetch` et nécessitent un serveur HTTP (incompatible avec `file://`).
 
 ---
 
@@ -167,16 +203,27 @@ Le fichier `results/benchmark_output.md` contient deux sections :
 
 ```
 .
-├── 1_prepare_data.py
-├── 2_run_benchmark.py
-├── 2_run_benchmark.xml     
+├── 1_prepare_data.py          # Étape 1 : parsing texte brut → JSON
+├── 2_run_benchmark.py         # Étape 2 : résolution + rapport Markdown
+├── 3_export_web_data.py       # Étape 3 : export JSON pour le dashboard
 ├── requirements.txt
 ├── src/
-│   ├── parser.py
-│   └── meeting_model.py
+│   ├── __init__.py
+│   ├── instance_parser.py     # Parse le format texte brut CSPLib
+│   ├── data_loader.py         # Charge un JSON d'instance processée
+│   ├── model.py               # Modèle CSP + résolution (PyCSP3)
+│   ├── benchmark.py           # Runner du benchmark
+│   └── reporter.py            # Affichage console + génération Markdown
 ├── data/
 │   ├── raw/
 │   │   └── toutes_les_instances.txt
-│   └── processed/          
-└── results/                
+│   └── processed/             # JSON générés par 1_prepare_data.py
+├── results/
+│   └── benchmark_output.md    # Rapport généré par 2_run_benchmark.py
+└── docs/                      # Dashboard GitHub Pages
+    ├── index.html
+    ├── style.css
+    ├── app.js
+    └── data/
+        └── benchmark.json     # Données générées par 3_export_web_data.py
 ```
