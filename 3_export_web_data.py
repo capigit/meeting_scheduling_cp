@@ -39,7 +39,7 @@ def parse_benchmark_md(filepath):
 def main():
     data_dir = 'data/processed/'
     md_file = 'results/benchmark_output.md'
-    output_file = 'docs/data/benchmark.json'
+    output_file = 'dashboard/data/benchmark.json'
 
     if not os.path.exists(md_file):
         print(f"ERREUR : '{md_file}' introuvable. Lancez d'abord 2_run_benchmark.py")
@@ -70,7 +70,7 @@ def main():
         'instances': instances,
     }
 
-    os.makedirs('docs/data', exist_ok=True)
+    os.makedirs('dashboard/data', exist_ok=True)
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 

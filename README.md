@@ -148,7 +148,7 @@ Affiche les résultats en console et les exporte dans `results/benchmark_output.
 python3 3_export_web_data.py
 ```
 
-Lit `results/benchmark_output.md` et les JSONs de `data/processed/`, puis produit `docs/data/benchmark.json` pour le dashboard web.
+Lit `results/benchmark_output.md` et les JSONs de `data/processed/`, puis produit `dashboard/data/benchmark.json` pour le dashboard web.
 
 ---
 
@@ -165,7 +165,7 @@ Le fichier `results/benchmark_output.md` contient deux sections :
 
 ## Dashboard GitHub Pages
 
-Le dossier `docs/` contient une application statique (HTML/CSS/JS) déployable sur GitHub Pages.
+Le dossier `dashboard/` contient une application statique (HTML/CSS/JS) déployable sur GitHub Pages.
 
 **Fonctionnalités :**
 
@@ -220,7 +220,7 @@ python3 -m http.server
 │   └── processed/             # JSON générés par 1_prepare_data.py
 ├── results/
 │   └── benchmark_output.md    # Rapport généré par 2_run_benchmark.py
-└── docs/                      # Dashboard GitHub Pages
+└── dashboard/                      # Dashboard GitHub Pages
     ├── index.html
     ├── style.css
     ├── app.js
